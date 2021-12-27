@@ -10,6 +10,25 @@ include 'header.php';
 
 <script type="text/javascript">
 
+  ///// https://developers.google.com/maps/documentation/javascript/adding-a-google-map#key
+  // Initialize and add the map
+function initMap() {
+  // The location of Uluru
+  const uluru = { lat: -25.344, lng: 131.036 };
+  // The map, centered at Uluru
+  const map = new google.maps.Map(document.getElementById("googleMap"), {
+    zoom: 4,
+    center: uluru,
+  });
+  // The marker, positioned at Uluru
+  const marker = new google.maps.Marker({
+    position: uluru,
+    map: map,
+  });
+}
+
+
+  
    function validateForm(){
 
    	$("#nameerror").hide();
@@ -45,11 +64,11 @@ include 'header.php';
 		    $.ajax({    //create an ajax request to load_page.php
 		    	async: false,
 		    	global: false,
-		    	data: {name:name},
+		    	data: {name:name, email:email,phone:phone,message:message},
 		    	type: "POST",
 		    	url: "sendemail.php",
 		    	success: function(response){
-		    		$("#buttonform").hide();
+			    //		    		$("#buttonform").hide();
 		    		$("#success").hide();
 		    		$("#success").html(response);
 		    		$("#success").fadeIn(3000);
@@ -61,9 +80,8 @@ include 'header.php';
     }  //validate
 
     $(document).ready(function(){
-    	$("#googlemap").hide();
-    	$("#baidumap").show();
-
+    	$("#baidumap").hide();
+	$("#googleMap").show();
 
 	    initMap();//创建和初始化地图
 	    $("#mysubmit").click(function(){
@@ -72,12 +90,12 @@ include 'header.php';
 
 	    $("#usegoogle").click(function(){
 	    	$("#baidumap").hide();
-	    	$("#googlemap").show();
+	    	$("#googleMap").show();
 
 	    });
 
 	    $("#usebaidu").click(function(){
-	    	$("#googlemap").hide();
+	    	$("#googleMap").hide();
 	    	$("#baidumap").show();
 
 
@@ -103,17 +121,12 @@ include 'header.php';
 			<div class="col-md-8">
 				<button id="usebaidu" class="btn btn-success">百度地图</button>  <button id="usegoogle" class="btn btn-success">谷歌地图</button> <br>
 
-				<div style="width:100%;overflow:hidden;height:500px;max-width:100%;" id="googlemap">
-					<div id="gmap-canvas" style="height:100%; width:100%;max-width:100%;">
-						<iframe style="height:100%;width:100%;border:0;" frameborder="0" src="https://www.google.com/maps/embed/v1/place?q=中国河北省石家庄市中山东路北国商城&key=AIzaSyAN0om9mFmy1QN6Wf54tXAowK4eT0ZUPrU">
-						</iframe>
-					</div>
-					<a class="google-map-html" href="http://www.hostingreviews.website/compare/network-solutions-vs-dreamhost" id="get-map-data">network solutions vs dreamhost</a>
-					<style>#gmap-canvas img{max-width:none!important;background:none!important;font-size: inherit;}</style>
-				</div>
-				<script src="https://www.hostingreviews.website/google-maps-authorization.js?id=4af8c640-24e2-7d22-3685-da5f18395c44&c=google-map-html&u=1460515928" defer="defer" async="async"></script>
-				<br>
+				<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+				<div style="width:100%;height:500px;border:#ccc solid 1px;" id="googleMap"></div>				
+				<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjG_NeRHRu4-M8m3JpKB9OBw-FKH7f5VQ&callback=initMap"></script>
 
+				<br>
 				<div style="width:100%;height:500px;border:#ccc solid 1px;" id="baidumap"></div>
 
 
